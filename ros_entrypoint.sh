@@ -12,7 +12,7 @@
         source "/opt/ros/overlay_ws/devel/setup.bash"
     fi
 source "/opt/ros/overlay_ws/devel/setup.bash"
-roslaunch rovio rovio_node.launch
+roslaunch rovio rovio_rosbag_testnode.launch
 #rosbag play --delay 10 -q  /opt/ros/rosbag_testdata/MH_01_easy.bag
 #    roslaunch rovio rovio_node.launch
     exec "$@"

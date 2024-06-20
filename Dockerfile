@@ -1,4 +1,6 @@
 FROM ros:noetic-ros-base
+#FROM arm64v8/ros:noetic-ros-base
+
 SHELL ["/bin/bash", "-c"]
 ARG OVERLAY_WS=/opt/ros/overlay_ws
 
@@ -49,6 +51,7 @@ RUN useradd -m $USERNAME && \
 USER ${user}
 # launch ros package
 COPY ./ros_entrypoint.sh /opt/ros/
+COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
 #ENTRYPOINT ["/bin/bash", "source", "/devel/setup.bash", "roslaunch", "rovio", "rovio_node.launch"]
 ENTRYPOINT ["/opt/ros/ros_entrypoint.sh"]
 # CMD ["bash"]
