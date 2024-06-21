@@ -8,7 +8,7 @@ mkdir rvdir && cd rvdir
 ## Скачать репозиторий и тестовый набор данных
 ```
 git clone https://github.com/katafoxi/rovio_docker.git && \
-wget http://robotics.ethz.ch/~asl-datasets/ijrr_euroc_mav_dataset/machine_hall/MH_01_easy/MH_01_easy.bag ./rosbag_testdata && \
+wget http://robotics.ethz.ch/~asl-datasets/ijrr_euroc_mav_dataset/machine_hall/MH_01_easy/MH_01_easy.bag -P ./rosbag_testdata && \
 cd rovio_docker
 ```
 ## Выбор платформы
