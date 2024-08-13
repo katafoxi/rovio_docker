@@ -24,10 +24,13 @@ RUN <<EOT bash
       git clone https://github.com/ANYbotics/kindr.git ./src/kindr
       git clone --recurse-submodules https://github.com/katafoxi/rovio2.git ./src/rovio
       rosdep install --from-paths src --ignore-src -r -y
+      echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
+      source ~/.bashrc
 
 EOT
 
-RUN <<EOT
+RUN <<EOT bash
+  source ~/.bashrc
   source /opt/ros/${ROS_DISTRO}/setup.bash
   catkin config --extend /opt/ros/${ROS_DISTRO}
   source ${OVERLAY_WS}/devel/setup.bash

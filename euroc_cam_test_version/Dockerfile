@@ -1,5 +1,5 @@
-FROM ros:noetic-ros-base
-#FROM arm64v8/ros:noetic-ros-base
+#FROM ros:noetic-ros-base
+FROM arm64v8/ros:noetic-ros-base
 
 SHELL ["/bin/bash", "-c"]
 ARG OVERLAY_WS=/opt/ros/overlay_ws
@@ -24,6 +24,8 @@ RUN <<EOT bash
       git clone https://github.com/ANYbotics/kindr.git ./src/kindr
       git clone --recurse-submodules https://github.com/katafoxi/rovio2.git ./src/rovio
       rosdep install --from-paths src --ignore-src -r -y
+      echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
+      source ~/.bashrc
 
 EOT
 
