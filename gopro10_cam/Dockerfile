@@ -19,6 +19,7 @@ RUN <<EOT bash
       python3-psutil \
       ros-$ROS_DISTRO-rviz
       ros-$ROS_DISTRO-image-transport
+      ros-${ROS_DISTRO}-image-transport-plugins
       sudo pip3 install -U catkin_tools
       rosdep init
       catkin init
