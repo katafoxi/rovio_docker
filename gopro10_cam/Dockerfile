@@ -28,8 +28,8 @@ RUN <<EOT bash
 EOT
 
 RUN <<EOT
-  source /opt/ros/$ROS_DISTRO/setup.bash
-  catkin config --extend /opt/ros/$ROS_DISTRO
+  source /opt/ros/${ROS_DISTRO}/setup.bash
+  catkin config --extend /opt/ros/${ROS_DISTRO}
   source ${OVERLAY_WS}/devel/setup.bash
   catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON -DROVIO_NCAM=1
 
