@@ -30,7 +30,8 @@ EOT
 RUN <<EOT
   source /opt/ros/$ROS_DISTRO/setup.bash
   catkin config --extend /opt/ros/$ROS_DISTRO
-  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON 
+  source ${OVERLAY_WS}/devel/setup.bash
+  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON -DROVIO_NCAM=1
 
 EOT
 
@@ -51,9 +52,9 @@ RUN useradd -m $USERNAME && \
 # WORKDIR /home/${user}
 USER ${user}
 # launch ros package
-COPY ./ros_entrypoint.sh /opt/ros/
-COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
+#COPY ./ros_entrypoint.sh /opt/ros/
+#COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
 #ENTRYPOINT ["/bin/bash", "source", "/devel/setup.bash", "roslaunch", "rovio", "rovio_node.launch"]
-ENTRYPOINT ["/opt/ros/ros_entrypoint.sh"]
+ENTRYPOINT ["${OVERLAY_WS}/cfg/gopro10_docker/gopro10_docker_entrypoint.sh"]
 # CMD ["bash"]
 # CMD tail -f /dev/null
