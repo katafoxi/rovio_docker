@@ -16,6 +16,7 @@ RUN <<EOT bash
       libglew-dev \
       vim \
       libyaml-cpp-dev \
+      psutil \
       ros-$ROS_DISTRO-image-transport
       sudo pip3 install -U catkin_tools
       rosdep init
@@ -27,9 +28,9 @@ RUN <<EOT bash
 EOT
 
 RUN <<EOT
-
+  source /opt/ros/$ROS_DISTRO/setup.bash
   catkin config --extend /opt/ros/$ROS_DISTRO
-  catkin build rovio --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON
+  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON 
 
 EOT
 
