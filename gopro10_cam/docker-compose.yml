@@ -18,6 +18,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
-      - ../rosbag_testdata/:/opt/ros/rosbag_testdata
+      - ./docker_volume_cfg/:/opt/ros/overlay_ws/src/rovio/cfg/gopro10_docker
+      - ./docker_volume_rosbags/:/opt/ros/overlay_ws/src/rovio/rosbags/gopro10_docker
     network_mode: host
 #    command: source /opt/ros/overlay_ws/devel/setup.bash  && roslaunch rovio rovio_node.launch
