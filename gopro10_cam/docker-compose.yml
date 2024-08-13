@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  app:
+    container_name: rrovixcon
+#    image: rrovix:latest
+    build:
+      context: .
+#     dockerfile: Dockerfile
+      args:
+      - user=${USER}
+      - uid=${UIDI:-1000}
+      - gid=${GIDI:-1000}
+
+    environment:
+      - DISPLAY=unix${DISPLAY}
+      - XAUTHORITY=/tmp/.docker.xauth
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ../rosbag_testdata/:/opt/ros/rosbag_testdata
+    network_mode: host
+#    command: source /opt/ros/overlay_ws/devel/setup.bash  && roslaunch rovio rovio_node.launch
