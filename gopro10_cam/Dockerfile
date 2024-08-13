@@ -59,6 +59,6 @@ USER ${user}
 #COPY ./ros_entrypoint.sh /opt/ros/
 #COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
 #ENTRYPOINT ["/bin/bash", "source", "/devel/setup.bash", "roslaunch", "rovio", "rovio_node.launch"]
-ENTRYPOINT ["${OVERLAY_WS}/cfg/gopro10_docker/gopro10_docker_entrypoint.sh"]
+ENTRYPOINT ["/opt/ros/overlay_ws/src/rovio/cfg/gopro10_docker/gopro10_docker_entrypoint.sh"]
 # CMD ["bash"]
 # CMD tail -f /dev/null
