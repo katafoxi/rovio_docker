@@ -1,5 +1,5 @@
-#FROM ros:noetic-ros-base
-FROM arm64v8/ros:noetic-ros-base
+FROM ros:noetic-ros-base
+#FROM arm64v8/ros:noetic-ros-base
 
 SHELL ["/bin/bash", "-c"]
 ARG OVERLAY_WS=/opt/ros/overlay_ws
@@ -14,10 +14,12 @@ RUN <<EOT bash
       wget \
       freeglut3-dev \
       libglew-dev \
-      vim \
       libyaml-cpp-dev \
       python3-psutil \
-      ros-$ROS_DISTRO-image-transport
+      python3-rosdep \
+      ros-$ROS_DISTRO-rviz \
+      ros-$ROS_DISTRO-image-transport \
+      ros-$ROS_DISTRO-image-transport-plugins
       sudo pip3 install -U catkin_tools
       rosdep init
       catkin init
@@ -29,9 +31,11 @@ RUN <<EOT bash
 
 EOT
 
-RUN <<EOT
-  source /opt/ros/$ROS_DISTRO/setup.bash
-  catkin config --extend /opt/ros/$ROS_DISTRO
+RUN <<EOT bash
+  source ~/.bashrc
+  source /opt/ros/${ROS_DISTRO}/setup.bash
+  catkin config --extend /opt/ros/${ROS_DISTRO}
+  source ${OVERLAY_WS}/devel/setup.bash
   catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON 
 
 EOT
@@ -42,7 +46,7 @@ ARG uid
 ARG gid
 
 #Add new user with our credentials
-ENV USERNAME ${user}
+ENV USERNAME=${user}
 RUN useradd -m $USERNAME && \
         echo "$USERNAME:$USERNAME" | chpasswd && \
         usermod --shell /bin/bash $USERNAME && \
@@ -53,9 +57,9 @@ RUN useradd -m $USERNAME && \
 # WORKDIR /home/${user}
 USER ${user}
 # launch ros package
-COPY ./ros_entrypoint.sh /opt/ros/
-COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
+#COPY ./ros_entrypoint.sh /opt/ros/
+#COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
 #ENTRYPOINT ["/bin/bash", "source", "/devel/setup.bash", "roslaunch", "rovio", "rovio_node.launch"]
-ENTRYPOINT ["/opt/ros/ros_entrypoint.sh"]
+ENTRYPOINT ["/opt/ros/overlay_ws/src/rovio/cfg/euroc_docker/entrypoint.sh"]
 # CMD ["bash"]
 # CMD tail -f /dev/null
