@@ -17,6 +17,7 @@ RUN <<EOT bash
       vim \
       libyaml-cpp-dev \
       python3-psutil \
+      ros-$ROS_DISTRO-rviz
       ros-$ROS_DISTRO-image-transport
       sudo pip3 install -U catkin_tools
       rosdep init
