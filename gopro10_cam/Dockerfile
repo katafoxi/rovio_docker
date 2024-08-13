@@ -14,12 +14,12 @@ RUN <<EOT bash
       wget \
       freeglut3-dev \
       libglew-dev \
-      vim \
       libyaml-cpp-dev \
       python3-psutil \
-      ros-$ROS_DISTRO-rviz
-      ros-$ROS_DISTRO-image-transport
-      ros-${ROS_DISTRO}-image-transport-plugins
+      python3-rosdep \
+      ros-$ROS_DISTRO-rviz \
+      ros-$ROS_DISTRO-image-transport \
+      ros-$ROS_DISTRO-image-transport-plugins 
       sudo pip3 install -U catkin_tools
       rosdep init
       catkin init
@@ -46,7 +46,7 @@ ARG uid
 ARG gid
 
 #Add new user with our credentials
-ENV USERNAME ${user}
+ENV USERNAME=${user}
 RUN useradd -m $USERNAME && \
         echo "$USERNAME:$USERNAME" | chpasswd && \
         usermod --shell /bin/bash $USERNAME && \
