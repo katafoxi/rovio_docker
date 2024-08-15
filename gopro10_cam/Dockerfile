@@ -31,13 +31,19 @@ RUN <<EOT bash
 
 EOT
 
+# It is necessary to select the appropriate Rovio build option
 RUN <<EOT bash
   source ~/.bashrc
   source /opt/ros/${ROS_DISTRO}/setup.bash
   catkin config --extend /opt/ros/${ROS_DISTRO}
   source ${OVERLAY_WS}/devel/setup.bash
-  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DMAKE_SCENE=ON -DROVIO_NCAM=1
 
+  # uncomment to build ROVIO without OpenGL scene
+  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1
+
+  #build rovio with OpenGL scene
+  #catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1 -DMAKE_SCENE=ON 
+  
 EOT
 
 # Arguments picked from the command line!
