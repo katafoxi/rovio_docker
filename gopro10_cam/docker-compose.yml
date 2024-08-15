@@ -11,11 +11,12 @@ services:
       - gid=${GIDI:-1000}
 
     environment:
-      - DISPLAY=unix${DISPLAY}
+      - DISPLAY=${DISPLAY}
       - XAUTHORITY=/tmp/.docker.xauth
+# src to connect with X11 https://wiki.ros.org/docker/Tutorials/GUI#Using_Wayland
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - /tmp/.docker.xauth:/tmp/.docker.xauth:rw
+      - ./.docker.xauth:/tmp/.docker.xauth:rw
       - ./cfg_docker_volume/:/opt/ros/overlay_ws/src/rovio/cfg/gopro10_docker
       - ./rosbags_docker_volume/:/opt/ros/overlay_ws/src/rovio/rosbags/gopro10_docker
     network_mode: host
