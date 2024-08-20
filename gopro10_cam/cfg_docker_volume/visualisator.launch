@@ -3,7 +3,9 @@
 
     <arg name="rviz" default="true"/>
     <arg name="bag" default="out.bag"/>
+    <arg name="cam_name" default="gopro10_docker"/>
+
     <node pkg="rviz" type="rviz" name="rviz" args="-d $(find rovio)/cfg/rovio.rviz" />
-    <node pkg="rosbag" type="play" name="rosbag_player" args="--delay 1 $(find rovio)/rosbags/gopro10/$(arg bag)">  </node>
+    <node pkg="rosbag" type="play" name="rosbag_player" args="--delay 1 $(find rovio)/rosbags/$(arg cam_name)/$(arg bag)">  </node>
 
 </launch>
