@@ -2,10 +2,10 @@ FROM ros:noetic-ros-base
 #FROM arm64v8/ros:noetic-ros-base
 
 SHELL ["/bin/bash", "-c"]
-ARG OVERLAY_WS=/opt/ros/overlay_ws
+ARG WS=/opt/ros/overlay_ws
 
-WORKDIR $OVERLAY_WS/src
-WORKDIR $OVERLAY_WS/
+WORKDIR $WS/src
+WORKDIR $WS/
 
 RUN <<EOT bash
       apt-get update && apt-get install -y \
@@ -25,6 +25,7 @@ RUN <<EOT bash
       catkin init
       git clone https://github.com/ANYbotics/kindr.git ./src/kindr
       git clone --recurse-submodules https://github.com/katafoxi/rovio2.git ./src/rovio
+      git clone https://github.com/CopterExpress/clover.git ./src/clover
       rosdep install --from-paths src --ignore-src -r -y
       echo "source /opt/ros/${ROS_DISTRO}/setup.bash" >> ~/.bashrc
       source ~/.bashrc
@@ -36,16 +37,22 @@ RUN <<EOT bash
   source ~/.bashrc
   source /opt/ros/${ROS_DISTRO}/setup.bash
   catkin config --extend /opt/ros/${ROS_DISTRO}
-  source ${OVERLAY_WS}/devel/setup.bash
+  source ${WS}/devel/setup.bash
 
   # uncomment to build ROVIO without OpenGL scene
   catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1
 
   #build rovio with OpenGL scene
-  #catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1 -DMAKE_SCENE=ON 
+  #catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1 -DMAKE_SCENE=ON
   
+  #build clover package
+  # https://github.com/CopterExpress/clover/tree/master/clover
+  rosdep install -y --from-paths src --ignore-src
+  catkin build clover -j1 --mem-limit 70%
 EOT
 
+#------------------------------------------------------------------------------
+# add support redirect X11 
 # Arguments picked from the command line!
 ARG user
 ARG uid
@@ -54,18 +61,14 @@ ARG gid
 #Add new user with our credentials
 ENV USERNAME=${user}
 RUN useradd -m $USERNAME && \
-        echo "$USERNAME:$USERNAME" | chpasswd && \
-        usermod --shell /bin/bash $USERNAME && \
-        usermod  --uid ${uid} $USERNAME && \
-        groupmod --gid ${gid} $USERNAME
-
-
-# WORKDIR /home/${user}
+  echo "$USERNAME:$USERNAME" | chpasswd && \
+  usermod --shell /bin/bash $USERNAME && \
+  usermod  --uid ${uid} $USERNAME && \
+  groupmod --gid ${gid} $USERNAME
 USER ${user}
+
+#------------------------------------------------------------------------------
 # launch ros package
-#COPY ./ros_entrypoint.sh /opt/ros/
-#COPY ./rovio_rosbag_testnode.launch  $OVERLAY_WS/src/rovio/launch/
-#ENTRYPOINT ["/bin/bash", "source", "/devel/setup.bash", "roslaunch", "rovio", "rovio_node.launch"]
-ENTRYPOINT ["/opt/ros/overlay_ws/src/rovio/cfg/gopro10_docker/gopro10_docker_entrypoint.sh"]
+ENTRYPOINT ["${WS}/src/rovio/cfg/gopro10_docker/entrypoint.sh"]
 # CMD ["bash"]
 # CMD tail -f /dev/null
