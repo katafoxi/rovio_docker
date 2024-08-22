@@ -51,6 +51,19 @@ RUN <<EOT bash
   catkin build clover -j1 --mem-limit 70%
 EOT
 
+#install and build ros_imu_bno055 module
+RUN <<EOT bash
+  sudo apt install -y libi2c-dev
+
+  source /opt/ros/${ROS_DISTRO}/setup.bash
+  catkin config --extend /opt/ros/${ROS_DISTRO}
+  source ${WS}/devel/setup.bash
+
+  git clone https://github.com/dheera/ros-imu-bno055.git ./src/ros_imu_bno055
+  catkin build imu_bno055 -j1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release 
+
+EOT
+
 #------------------------------------------------------------------------------
 # add support redirect X11 
 # Arguments picked from the command line!

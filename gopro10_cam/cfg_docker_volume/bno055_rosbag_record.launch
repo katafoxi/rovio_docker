@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <arg name="rviz" default="false"/>
+  <arg name="conf_version" default="16_16"/>
+  <arg name="bag" default="way.bag"/>
+  <arg name="record" default="true"/>
+  <arg name="cam_name" default="gopro10_docker"/>
+
+ 
+  <node pkg="imu_bno055" 
+  type="imu_bno055_node" 
+  name="bno055_i2c_node" 
+  required="true" 
+  args="--delay 1 device">
+    <param name="device" value="/dev/i2c-1"/>
+    <param name="address" value="0x28"/>
+  </node>
+
+  <!-- Если необходимо записывать результаты работы IMU в rosbag-файл в запустить лаунчер с аргументом record:=true -->
+  <group if="$(arg record)">
+    <node pkg="rosbag" 
+    type="record" name="rovio_out_rosbag_recorder" 
+    args="record -O $(find rovio)/rosbags/$(arg cam_name)/out_imu --duration=3h  /data /raw /mag /temp /status">
+    </node>
+  </group>
+
+</launch>
+
+
