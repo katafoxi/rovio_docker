@@ -12,7 +12,9 @@ else
     source "/opt/ros/overlay_ws/devel/setup.bash"
 fi
 source "/opt/ros/overlay_ws/devel/setup.bash"
+export ROS_HOSTNAME=localhost
+export ROS_MASTER_URI=http://localhost:11311
 #roslaunch rovio rosbagplay_node.launch
-roslaunch imu_bno055 imu_bno055_rosbag_record.launch
+roslaunch rovio bno055_rosbag_record.launch
 
 exec "$@"
