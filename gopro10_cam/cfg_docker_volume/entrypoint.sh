@@ -12,6 +12,7 @@ else
     source "/opt/ros/overlay_ws/devel/setup.bash"
 fi
 source "/opt/ros/overlay_ws/devel/setup.bash"
-roslaunch rovio rosbagplay_node.launch
+#roslaunch rovio rosbagplay_node.launch
+roslaunch imu_bno055 imu_bno055_rosbag_record.launch
 
 exec "$@"
