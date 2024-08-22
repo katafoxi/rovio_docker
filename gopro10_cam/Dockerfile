@@ -1,5 +1,5 @@
-FROM ros:noetic-ros-base
-#FROM arm64v8/ros:noetic-ros-base
+#FROM ros:noetic-ros-base
+FROM arm64v8/ros:noetic-ros-base
 
 SHELL ["/bin/bash", "-c"]
 ARG WS=/opt/ros/overlay_ws
@@ -82,6 +82,6 @@ USER ${user}
 
 #------------------------------------------------------------------------------
 # launch ros package
-ENTRYPOINT ["${WS}/src/rovio/cfg/gopro10_docker/entrypoint.sh"]
+ENTRYPOINT ["/opt/ros/overlay_ws/src/rovio/cfg/gopro10_docker/entrypoint.sh"]
 # CMD ["bash"]
 # CMD tail -f /dev/null
