@@ -14,10 +14,12 @@
   </node>
 
   <!-- Если необходимо записывать результаты работы IMU в rosbag-файл в запустить лаунчер с аргументом record:=true -->
+  <!-- После истечения времени записи (мнимально для калибровки 3часа, нода выключается -->
   <group if="$(arg record)">
     <node pkg="rosbag" 
-    type="record" name="rovio_out_rosbag_recorder" 
-    args="record -O $(find rovio)/rosbags/$(arg cam_name)/out_imu --duration=3h  /data /raw /mag /temp /status">
+    type="record" name="imu_out_rosbag_recorder" 
+    required="true"
+    args="record -O $(find rovio)/rosbags/$(arg cam_name)/imu --duration=3h  /data /raw /mag /temp /status">
     </node>
   </group>
 
