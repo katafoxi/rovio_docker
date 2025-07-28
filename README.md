@@ -28,8 +28,10 @@ xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f /tmp/.docker.xauth nmer
 ## Запуск
 Если тестовый набор данных скачан и в находится в нужной папке, тогда собираем и запускаем контейнер ROS+ROVIO из папки rovio_docker
 ```
-docker compose build && docker compose up
+docker compose build && docker compose run --rm app
 ```
+Появится список интерактивного выбора лаунчера. 
+
 ![image](https://github.com/katafoxi/rovio_docker/assets/83884504/794bf74d-2dce-4675-a599-e7535484e533)
 
 Enjoy!

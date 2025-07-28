@@ -1,5 +1,5 @@
-#FROM ros:noetic-ros-base
-FROM arm64v8/ros:noetic-ros-base
+FROM ros:noetic-ros-base
+# FROM arm64v8/ros:noetic-ros-base
 
 SHELL ["/bin/bash", "-c"]
 ARG WS=/opt/ros/overlay_ws
@@ -40,10 +40,10 @@ RUN <<EOT bash
   source ${WS}/devel/setup.bash
 
   # uncomment to build ROVIO without OpenGL scene
-  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1
+  #catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1
 
   #build rovio with OpenGL scene
-  #catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1 -DMAKE_SCENE=ON
+  catkin build rovio -j 1 --mem-limit 70% --cmake-args -DCMAKE_BUILD_TYPE=Release -DROVIO_NCAM=1 -DMAKE_SCENE=ON
   
   #build clover package
   # https://github.com/CopterExpress/clover/tree/master/clover
