@@ -12,10 +12,10 @@ wget http://robotics.ethz.ch/~asl-datasets/ijrr_euroc_mav_dataset/machine_hall/M
 cd rovio_docker
 ```
 ## Выбор платформы
-Например, для платформы arm64v8 в Dockerfile закоментировать одну строку, раскоментировать другую.
-```
-#FROM ros:noetic-ros-base
-FROM arm64v8/ros:noetic-ros-base
+Реализован автоматический выбор платформы сборки 
+```Dockerfile
+ARG ROS_IMAGE=ros:noetic-ros-base
+FROM --platform=$BUILDPLATFORM ${ROS_IMAGE} as base
 ```
 ## ROVIO + X11
 Для корректного запуска ROVIO в контейнер с инфраструктурой ROS + ROVIO необходимо прикрутить возможность общаться с X11-сервером операционной системы.
